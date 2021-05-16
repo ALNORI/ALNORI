@@ -1,6 +1,6 @@
 import { getGreeting } from '../support/app.po';
 
-describe('annxapp', () => {
+describe('ang-nest', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {
@@ -8,6 +8,6 @@ describe('annxapp', () => {
     cy.login('my-email@something.com', 'myPassword');
 
     // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to annxapp!');
+    getGreeting().contains('Welcome to ang-nest!');
   });
 });

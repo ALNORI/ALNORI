@@ -9,7 +9,7 @@
   "affected": {
     "defaultBase": "master"
   },
-  "npmScope": "vercel-tester",
+  "npmScope": "controls2",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
@@ -19,12 +19,12 @@
     }
   },
   "projects": {
-    "annxapp": {
+    "ang-nest": {
       "tags": []
     },
-    "annxapp-e2e": {
+    "ang-nest-e2e": {
       "tags": [],
-      "implicitDependencies": ["annxapp"]
+      "implicitDependencies": ["ang-nest"]
     },
     "api": {
       "tags": []

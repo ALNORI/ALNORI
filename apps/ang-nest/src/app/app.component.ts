@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Message } from '@vercel-tester/api-interfaces';
+import { Message } from '@controls2/api-interfaces';
 
 @Component({
-  selector: 'vercel-tester-root',
+  selector: 'controls2-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   hello$ = this.http.get<Message>('/api/hello');
