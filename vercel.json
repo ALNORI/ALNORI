@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "scope": "controls2",
+  "github": {
+    "enabled": false
+  },
+  "builds": [
+    {
+      "src": "/dist/apps/api/main.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "/dist/apps/dashboard2019/*",
+      "use": "@now/static"
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/dist/apps/api/main.js" },
+    { "handle": "filesystem" },
+    { "src": "/assets/(.*)", "dest": "/dist/apps/dashboard2019/assets/$1" },
+    { "src": "/(.*).(js|css|ico)", "dest": "/dist/apps/dashboard2019/$1.$2" },
+    { "src": "/(.*)", "dest": "/dist/apps/dashboard2019/index.html" }
+  ]
+}
+
