@@ -1,9 +1,202 @@
 {
   "version": 1,
+  "projects": {
+    "nx-app": {
+      "projectType": "application",
+      "root": "apps/nx-app",
+      "sourceRoot": "apps/nx-app/src",
+      "prefix": "nx-workspace",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/nx-app",
+            "index": "apps/nx-app/src/index.html",
+            "main": "apps/nx-app/src/main.ts",
+            "polyfills": "apps/nx-app/src/polyfills.ts",
+            "tsConfig": "apps/nx-app/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/nx-app/src/favicon.ico", "apps/nx-app/src/assets"],
+            "styles": ["apps/nx-app/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/nx-app/src/environments/environment.ts",
+                  "with": "apps/nx-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "nx-app:build",
+            "proxyConfig": "apps/nx-app/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "nx-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "nx-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/nx-app/tsconfig.app.json",
+              "apps/nx-app/tsconfig.spec.json",
+              "apps/nx-app/tsconfig.editor.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/nx-app/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/nx-app"],
+          "options": {
+            "jestConfig": "apps/nx-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "nx-app-e2e": {
+      "root": "apps/nx-app-e2e",
+      "sourceRoot": "apps/nx-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/nx-app-e2e/cypress.json",
+            "tsConfig": "apps/nx-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "nx-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "nx-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/nx-app-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/nx-app-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "ui": {
+      "projectType": "library",
+      "root": "libs/ui",
+      "sourceRoot": "libs/ui/src",
+      "prefix": "nx-workspace",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/tsconfig.lib.json",
+              "libs/ui/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ui"],
+          "options": {
+            "jestConfig": "libs/ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "prefix": "api",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": ["apps/api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api"],
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "defaultCollection": "@nrwl/angular"
   },
-  "defaultProject": "ang-nest",
   "schematics": {
     "@nrwl/workspace": {
       "library": {
@@ -40,205 +233,12 @@
       }
     },
     "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "tslint",
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
     "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "tslint",
       "unitTestRunner": "jest"
-    },
-    "@nrwl/angular:component": {
-      "style": "scss"
     }
   },
-  "projects": {
-    "ang-nest": {
-      "projectType": "application",
-      "root": "apps/ang-nest",
-      "sourceRoot": "apps/ang-nest/src",
-      "prefix": "controls2",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/apps/ang-nest",
-            "index": "apps/ang-nest/src/index.html",
-            "main": "apps/ang-nest/src/main.ts",
-            "polyfills": "apps/ang-nest/src/polyfills.ts",
-            "tsConfig": "apps/ang-nest/tsconfig.app.json",
-            "aot": true,
-            "assets": [
-              "apps/ang-nest/src/favicon.ico",
-              "apps/ang-nest/src/assets"
-            ],
-            "styles": ["apps/ang-nest/src/styles.scss"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/ang-nest/src/environments/environment.ts",
-                  "with": "apps/ang-nest/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "ang-nest:build",
-            "proxyConfig": "apps/ang-nest/proxy.conf.json"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "ang-nest:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "ang-nest:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/ang-nest/tsconfig.app.json",
-              "apps/ang-nest/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/ang-nest/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/ang-nest"],
-          "options": {
-            "jestConfig": "apps/ang-nest/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "ang-nest-e2e": {
-      "root": "apps/ang-nest-e2e",
-      "sourceRoot": "apps/ang-nest-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/ang-nest-e2e/cypress.json",
-            "tsConfig": "apps/ang-nest-e2e/tsconfig.e2e.json",
-            "devServerTarget": "ang-nest:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ang-nest:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/ang-nest-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/ang-nest-e2e/**/*"]
-          }
-        }
-      }
-    },
-    "api": {
-      "root": "apps/api",
-      "sourceRoot": "apps\\api\\src",
-      "projectType": "application",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/api",
-            "main": "apps/api/src/main.ts",
-            "tsConfig": "apps/api/tsconfig.app.json"
-
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/api/src/environments/environment.ts",
-                  "with": "apps/api/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "api:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/api/tsconfig.app.json",
-              "apps/api/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/api/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/api"],
-          "options": {
-            "jestConfig": "apps/api/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "api-interfaces": {
-      "root": "libs/api-interfaces",
-      "sourceRoot": "libs/api-interfaces/src",
-      "projectType": "library",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["libs/api-interfaces/tsconfig.lib.json"],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**/*"]
-          }
-        }
-      }
-    }
-  }
+  "defaultProject": "nx-app"
 }

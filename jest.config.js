@@ -1,3 +1,7 @@
 module.exports = {
-  projects: ['<rootDir>/apps/ang-nest', '<rootDir>/apps/api'],
+  projects: [
+    '<rootDir>/apps/nx-app',
+    '<rootDir>/libs/ui',
+    '<rootDir>/apps/api',
+  ],
 };
