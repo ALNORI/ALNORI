@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'nx-app'),
+      rootPath: join(__dirname, './', 'nx-app'),
       exclude: ['/api*']
     }),
   ],
