@@ -1,12 +1,5 @@
 # NxWorkspace
 
-
- git flow feature start aws-nest-nx-api-01
-
-Now, start committing on your feature. When done, use:
-
-     git flow feature finish aws-nest-nx-api-01
-
 This project was generated using [Nx](https://nx.dev).
 
 <p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
